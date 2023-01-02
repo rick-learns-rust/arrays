@@ -13,12 +13,31 @@ fn main() {
     // All elements can be initialized to the same value
     let mut ys: [i32; 500] = [0; 500];
 
-    for x in 0..10 {
-        let index = i32::try_from(x).ok();
-        match index {
-            Some(val) => ys[x] = 10 - val,
-            None => println!("index out of range"),
+    let q: usize = 12412412412412341234;
+    ys[0] = q as i32;
+    let opt = i32::try_from(q).ok();
+    match opt {
+        Some(val) => ys[1] = val,
+        None => println!("too big"),
+    }
+
+    for i in 0..xs.len() {
+        //this block of code
+        let opt = i32::try_from(i).ok();
+        match opt {
+            Some(val) => ys[i + 1] = val,
+            None => println!("too big"),
         }
+
+        //and this line of code
+        ys[i + 1] = i as i32;
+
+        //do the same thing in most cases, but the block is safer
+        //because it handles indexes larger than a signed i32
+    }
+
+    for i in xs {
+        ys[i as usize] = i;
     }
 
     // Indexing starts at 0
@@ -50,7 +69,7 @@ fn main() {
     // Arrays can be safely accessed using `.get`, which returns an
     // `Option`. This can be matched as shown below, or used with
     // `.expect()` if you would like the program to exit with a nice
-    // message instead of happily continuing.
+    // message instead of happily continue.
     for i in 0..xs.len() + 1 {
         // OOPS, one element too far
         match xs.get(i) {
@@ -59,6 +78,6 @@ fn main() {
         }
     }
 
-    // Out of bound indexing causes compile error
-    //println!("{}", xs[5]);
+    // Out of bound indexing causes runtime error
+    // println!("{}", xs[5]);
 }
